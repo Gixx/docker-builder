@@ -33,6 +33,7 @@ function cleanup() {
 }
 
 function run() {
+cp ./install.sh /tmp/xxx
     cleanup;
 
     echo $UNDERLINE; echo -n "Welcome to the Docker-Builder.$NORMAL"
@@ -40,7 +41,8 @@ function run() {
     echo "";  read -p "Do you want to continue (y/n)? " -n1 answer; echo; [[ $answer = [yY] ]] || return
 
     if [ $? -ne 0 ]; then
-        echo "Please install docker toolbox. https://www.docker.com/products/docker-toolbox"
+        echo $ERROR
+        echo -n "ERROR: Please install docker toolbox. https://www.docker.com/products/docker-toolbox $NORMAL"
         exit 1
     fi
 
@@ -49,6 +51,7 @@ function run() {
         # Oh, what a dirty trick!!! >:D
         git clone git@github.com:Gixx/docker-builder.git . &> /dev/null
         echo " Done"
+cp -f /tmp/xxx ./install.sh
         mkdir sources &> /dev/null
     fi
 
@@ -56,6 +59,13 @@ function run() {
     read project
     echo ""; echo -n "Clone '$project' into the ./sources folder "
     ./progress.sh git clone git@github.com:$project.git ./sources &> /dev/null
-    echo " Done"
+
+    if [[ ! -d "./sources" ]]; then
+        echo $ERROR
+        echo -n "ERROR: The $project could not be cloned. $NORMAL"
+        exit 1
+    else
+        echo " Done"
+    fi
 }
 run
