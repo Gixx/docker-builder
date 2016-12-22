@@ -20,13 +20,16 @@ trap finish EXIT
 shell=$(echo $SHELL | awk -F '/' '{print $NF}')
 
 function cleanup() {
-    rm -rf ./sources &> /dev/null
     rm -rf ./.git &> /dev/null
     rm -rf ./.idea &> /dev/null
-    rm ./run_with_dots &> /dev/null
-    rm README.md &> /dev/null
-    rm LICENSE &> /dev/null
-    rm docker-compose.yml &> /dev/null
+    rm -rf ./resources &> /dev/null
+    rm -rf ./sources &> /dev/null
+    rm -f ./.gitignore &> /dev/null
+    rm -f ./docker-compose.yml &> /dev/null
+    rm -f ./install.sh &> /dev/null
+    rm -f ./LICENSE &> /dev/null
+    rm -f ./progress.sh &> /dev/null
+    rm -f ./README.md &> /dev/null
 }
 
 function run() {
@@ -44,8 +47,7 @@ function run() {
     if [[ ! -d "./.git" ]]; then
         echo ""; echo -n "Clone Docker-Builder "
         # Oh, what a dirty trick!!! >:D
-        rm -f ./install.sh &> /dev/null
-        git clone git@github.com:Gixx/docker-builder.git . &
+        git clone git@github.com:Gixx/docker-builder.git . &> /dev/null
         mkdir sources &> /dev/null
     fi
 
