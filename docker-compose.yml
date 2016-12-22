@@ -1,0 +1,9 @@
+version: "2"
+
+volumes:
+    mysql-data:
+        driver: local
+
+networks:
+    gps-network:
+        driver: bridge
