@@ -39,7 +39,7 @@ function run() {
 # DEV
 cp ./install.sh /tmp/xxx
 # DEV END
-    echo $UNDERLINE;
+    echo $UNDERLINE$GREEN;
     echo -n "Welcome to the Docker-Builder.$NORMAL"
     echo "";
     echo "This script will create a PHP7 Docker VM for your GitHub project."
@@ -98,5 +98,55 @@ cp -f /tmp/xxx ./install.sh
     else
         echo " Done"
     fi
+
+    # Collect informations
+    echo $UNDERLINE$GREEN
+    echo "In the following, we need you to give some setup data.$NORMAL"
+
+    read -p "  * VM name (leave blank for default: $VM_NAME)> " input;
+    if [[ ! -z "$input" ]]; then
+        VM_NAME=$input
+    fi
+
+    read -p "  * VM timezone (leave blank for default: $VM_TIMEZONE)> " input;
+    if [[ ! -z "$input" ]]; then
+        VM_TIMEZONE=$input
+    fi
+
+    read -p "  * VM domain name (leave blank for default: $VM_DOMAIN)> " input;
+    if [[ ! -z "$input" ]]; then
+        VM_DOMAIN=$input
+    fi
+
+    read -p "  * VM document root: relative to the ./source folder (leave blank for default: $VM_DOCROOT)> " input;
+    if [[ ! -z "$input" ]]; then
+        VM_DOCROOT=$input
+    fi
+
+    echo $UNDERLINE$GREEN
+    echo "Please enter the MySQL credentials for the VM.$NORMAL"
+
+    read -p "  * MySQL user (leave blank for default: $VM_MYSQL_USER)> " input;
+    if [[ ! -z "$input" ]]; then
+        VM_MYSQL_USER=$input
+    fi
+
+    read -p "  * MySQL password (leave blank for default: $VM_MYSQL_PASSWORD)> " input;
+    if [[ ! -z "$input" ]]; then
+        VM_MYSQL_PASSWORD=$input
+    fi
+
+    read -p "  * MySQL database (leave blank for default: $VM_MYSQL_DATABASE)> " input;
+    if [[ ! -z "$input" ]]; then
+        VM_MYSQL_DATABASE=$input
+    fi
+
+    read -p "  * MySQL root password (leave blank for default: $VM_MYSQL_ROOTPASSWORD)> " input;
+    if [[ ! -z "$input" ]]; then
+        VM_MYSQL_ROOTPASSWORD=$input
+    fi
+
+    echo ""
+    echo "Data saved, patching Docker resources. "
 }
 run
