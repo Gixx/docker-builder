@@ -48,6 +48,7 @@ function run() {
         echo ""; echo -n "Clone Docker-Builder "
         # Oh, what a dirty trick!!! >:D
         git clone git@github.com:Gixx/docker-builder.git . &> /dev/null
+        echo " Done"
         mkdir sources &> /dev/null
     fi
 
@@ -55,5 +56,6 @@ function run() {
     read project
     echo ""; echo -n "Clone '$project' into the ./sources folder "
     ./progress.sh git clone git@github.com:$project.git ./sources &> /dev/null
+    echo " Done"
 }
 run
