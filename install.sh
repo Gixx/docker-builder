@@ -6,13 +6,12 @@ which docker-machine &>/dev/null
 
 BOLD=$(tput bold)
 UNDERLINE=$(tput smul)
-BLACK=$(tput setaf 0)
 RED=$(tput setaf 1)
 GREEN=$(tput setaf 2)
 YELLOW=$(tput bold;tput setaf 3)
 MAGENTA=$(tput bold;tput setaf 5)
 ERROR=$(tput bold;tput setb 4)
-WARNING=$(tput bold;tput setb 6)
+WARNING=$(tput bold;tput setaf 0;tput setb 6)
 NORMAL=$(tput sgr0)
 
 function finish() {
@@ -55,34 +54,29 @@ cp ./install.sh /tmp/xxx
     # Check install directory
     if [ "$(ls -A $dir)" ]; then
         echo $WARNING
-        echo -n $BLACK
-        echo -n $BOLD
-        echo -n "   ERROR: current directory ($PWD) is not empty!$NORMAL"
+        echo -n "   WARNING: current directory ($PWD) is not empty!$NORMAL"
         echo ""
         echo "$BOLD Do you want to delete all files?$NORMAL"
         echo "  * Note: changes cannot be undone!"
-        read -p "    [y/n]: " -n1 answer;
-        echo "";
+        read -p "    [y/n]> " answer;
         [[ $answer = [yY] ]] || return
         rm -rf ./.* ./* &> /dev/null
-        echo "Files removed"
+        echo "  * Files removed"
     else
         echo ""
         echo "$BOLD Do you want to continue?$NORMAL";
-        echo "  * Note: the setup process can take 5-15 minutes."
-        read -p "    [y/n]: " -n1 answer;
-        echo "";
+        read -p "    [y/n]> " answer;
         [[ $answer = [yY] ]] || return
     fi
 
     # Clone docker-builder
     if [[ ! -d "./.git" ]]; then
         echo "";
-        echo -n "Clone Docker-Builder "
+        echo -n "Clone Docker-Builder"
         git clone git@github.com:Gixx/docker-builder.git . &> /dev/null
         # Not to accidentally commit anything back
         # rm -rf ./.git
-        echo " Done"
+        echo " ... Done"
 # DEV
 cp -f /tmp/xxx ./install.sh
 # DEV END
@@ -92,7 +86,7 @@ cp -f /tmp/xxx ./install.sh
     # Clone user's project
     echo "";
     echo "Type the name of your GitHub project (in format:  <Namespace>/<Project>), followed by [ENTER]:"
-    read project
+    read -p "> " project
     echo "";
     echo -n "Clone '$project' into the ./sources folder "
     ./progress.sh git clone git@github.com:$project.git ./sources &> /dev/null
