@@ -14,7 +14,7 @@ function run() {
         exit 1
     fi
     if [[ ! -d "./.git" ]]; then
-        echo "Clone docker Builder"
+        echo "Clone Docker-Builder"
         # Oh, what a dirty trick!!! >:D
         rm -f ./install.sh
         git clone git@github.com:Gixx/docker-builder.git .
