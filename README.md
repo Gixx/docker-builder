@@ -27,4 +27,4 @@ In new terminal before start use always:
  eval $(docker-machine env myproject)
 finish
 ```
-3) Finally, go to the myproject.dev website.
+
