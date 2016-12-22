@@ -14,13 +14,11 @@ function run() {
         exit 1
     fi
     if [[ ! -d "./.git" ]]; then
-        echo "Clone GPS-Tool Docker"
+        echo "Clone docker Builder"
         # Oh, what a dirty trick!!! >:D
         rm -f ./install.sh
-        git clone git@git.westwing.eu:docker/gps-tool.git .
-        echo "Clone GPS-Tool sources"
+        git clone git@github.com:Gixx/docker-builder.git .
         mkdir sources
-        git clone git@git.westwing.eu:devops/gps-tool.git ./sources
     fi
 }
 run 
