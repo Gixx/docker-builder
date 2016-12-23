@@ -69,9 +69,9 @@ trap finish EXIT
 shell=$(echo $SHELL | awk -F '/' '{print $NF}')
 
 function run() {
-# DEV
-cp ./install.sh /tmp/xxx
-# DEV END
+    # DEV
+    #cp ./install.sh /tmp/xxx
+    # DEV END
     echo $GREEN;
     echo "  ██████╗  ██████╗  ██████╗██╗  ██╗███████╗██████╗       ██████╗ ██╗   ██╗██╗██╗     ██████╗ ███████╗██████╗"
     echo "  ██╔══██╗██╔═══██╗██╔════╝██║ ██╔╝██╔════╝██╔══██╗      ██╔══██╗██║   ██║██║██║     ██╔══██╗██╔════╝██╔══██╗"
@@ -114,12 +114,12 @@ cp ./install.sh /tmp/xxx
     echo "  * Clone repository"
     git clone git@github.com:Gixx/docker-builder.git . &> /dev/null
     # Not to accidentally commit anything back
-    # rm -rf ./.git
+    rm -rf ./.git
     echo "    ... Done"
 
-# DEV
-cp -f /tmp/xxx ./install.sh
-# DEV END
+    # DEV
+    #cp -f /tmp/xxx ./install.sh
+    # DEV END
     mkdir sources &> /dev/null
 
     # Clone user's project
@@ -199,7 +199,7 @@ cp -f /tmp/xxx ./install.sh
     printHeadline "Create Docker VM for $project"
 
     rm -f /tmp/docker-create.log &> /dev/null
-    rm -f /tmp/docker-create.log &> /dev/null
+    rm -f /tmp/docker-compose.log &> /dev/null
 
     status=$(docker-machine status $VM_NAME 2>&1)
     if [[ "$?" != "1" ]]; then
@@ -207,7 +207,7 @@ cp -f /tmp/xxx ./install.sh
         if [[ "$status" == "Running" ]]; then
             docker-machine stop $VM_NAME &> /tmp/docker-create.log
         fi
-        docker-machine rm -f $VM_NAME &> /tmp/docker-compose.log
+        docker-machine rm -f $VM_NAME &> /tmp/docker-create.log
         echo "    ... Done"
     fi
 
@@ -218,13 +218,13 @@ cp -f /tmp/xxx ./install.sh
 
     OS=$(uname)
     if [[ "$OS" == "Darwin" ]]; then
-        echo "  * Installing NFS utils..."
+        echo "  * Installing NFS utils"
         ./progress.sh docker-machine ssh $VM_NAME tce-load -wi nfs-utils &> /dev/null
         echo " Done"
 
         rcode=$(cat /etc/exports | grep "172\.17\.0\.0")
         if [[ $rcode != 0 ]]; then
-            echo "  * Update /etc/exports and restart nfsd ..."
+            echo "  * Update NFS config and restart service"
             echo | sudo tee -a /etc/exports &> /dev/null
             echo "$(pwd) -network 172.17.0.0 -mask 255.255.255.0 -alldirs -maproot=$USER" | sudo tee -a /etc/exports &> /dev/null
             echo | sudo tee -a /etc/exports &> /dev/null
@@ -262,6 +262,6 @@ cp -f /tmp/xxx ./install.sh
     echo ''
     echo 'In new terminal before start use always:'
     echo ''
-    echo '    eval $(docker-machine env $VM_NAME)'
+    echo "    eval \$(docker-machine env $VM_NAME)"
 }
 run
