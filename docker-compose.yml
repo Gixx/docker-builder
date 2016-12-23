@@ -1,9 +1,64 @@
 version: "2"
+services:
+    php:
+        build:
+            context: ./resources/fpm
+            dockerfile: Dockerfile
+        image: php:7.0-fpm
+        container_name: %vm.name%-fpm
+        volumes:
+            - ./sources:/application
+            - ./resources/fpm/php-local.ini:/usr/local/etc/php/php.ini:ro
+            - ./resources/cli/conf.d:/usr/local/etc/php/conf.d:ro
+        links:
+            - mysql
+        restart: always
+        networks:
+            %vm.name%-network: { aliases: [ fpm.local ] }
+
+    web:
+        build:
+            context: ./resources/nginx
+            dockerfile: Dockerfile
+        image: nginx:latest
+        container_name: %vm.name%-webserver
+        ports:
+            - 80:80
+            - 443:443
+        volumes:
+            - ./sources:/application
+            - ./resources/nginx/sites-enabled:/etc/nginx/conf.d:ro
+            - ./resources/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+        links:
+            - php
+        restart: always
+        networks:
+            %vm.name%-network: { aliases: [ web.local ] }
+
+    mysql:
+        build:
+            context: ./resources/mysql
+            dockerfile: Dockerfile
+        image: percona:5.7
+        container_name: %vm.name%-dbms
+        environment:
+            MYSQL_USER: %vm.mysql.user%
+            MYSQL_PASSWORD: %vm.mysql.password%
+            MYSQL_DATABASE: %vm.mysql.database%
+            MYSQL_ROOT_PASSWORD: %vm.mysql.rootpassword%
+        volumes:
+            - mysql-data:/var/lib/mysql
+            - ./sources:/application
+        ports:
+            - 3306:3306
+        restart: always
+        networks:
+            %vm.name%-network: { aliases: [ db.local ] }
 
 volumes:
     mysql-data:
         driver: local
 
 networks:
-    gps-network:
+    %vm.name%-network:
         driver: bridge

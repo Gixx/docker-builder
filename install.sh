@@ -22,8 +22,6 @@ ERROR=$(tput bold;tput setb 4)
 WARNING=$(tput bold;tput setaf 0;tput setb 6)
 NORMAL=$(tput sgr0)
 
-
-
 function finish() {
     echo ""
     echo "Finish"
