@@ -28,6 +28,7 @@ services:
         volumes:
             - ./sources:/application
             - ./resources/nginx/sites-enabled:/etc/nginx/conf.d:ro
+            - ./resources/nginx/ssl:/etc/nginx/ssl:ro
             - ./resources/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
         links:
             - php

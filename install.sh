@@ -46,6 +46,7 @@ function printError() {
 }
 
 function printHeadline() {
+    echo ""
     echo $UNDERLINE$GREEN;
     echo $1
     echo -n $NORMAL
@@ -54,7 +55,7 @@ function printHeadline() {
 VM_NAME="myproject"
 VM_TIMEZONE=$(/bin/ls -l /etc/localtime|/usr/bin/cut -d"/" -f7,8)
 VM_DOMAIN="myproject.dev"
-VM_DOCROOT="public"
+VM_DOCROOT=""
 
 VM_MYSQL_USER="user"
 VM_MYSQL_PASSWORD="userpass"
@@ -153,7 +154,7 @@ cp -f /tmp/xxx ./install.sh
         VM_DOMAIN=$input
     fi
 
-    read -p "$NORMAL  * VM document root: relative to the ./source folder (default: $VM_DOCROOT) > $UNDERLINE$SAVE_CURSOR                         $RESTORE_CURSOR" input;
+    read -p "$NORMAL  * VM document root: relative to the ./source folder (default is '.') > $UNDERLINE$SAVE_CURSOR                         $RESTORE_CURSOR" input;
     if [[ ! -z "$input" ]]; then
         VM_DOCROOT=$input
     fi
@@ -182,15 +183,85 @@ cp -f /tmp/xxx ./install.sh
 
     echo $NORMAL
     echo "Data saved, patching Docker resources:"
+    grep -lR "%host.ip%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%host.ip%/$HOST_IP/g\" @"
+    grep -lR "%host.group%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%host.group%/$HOST_GROUP/g\" @"
     grep -lR "%vm.name%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%vm.name%/$VM_NAME/g\" @"
     grep -lR "%vm.timezone%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s#%vm.timezone%#$VM_TIMEZONE#g\" @"
     grep -lR "%vm.domain%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%vm.domain%/$VM_DOMAIN/g\" @"
     grep -lR "%vm.docroot%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%vm.docroot%/$VM_DOCROOT/g\" @"
-    grep -lR "%vm.docroot%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%vm.docroot%/$VM_MYSQL_USER/g\" @"
-    grep -lR "%vm.docroot%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%vm.docroot%/$VM_MYSQL_PASSWORD/g\" @"
-    grep -lR "%vm.docroot%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%vm.docroot%/$VM_MYSQL_DATABASE/g\" @"
-    grep -lR "%vm.docroot%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%vm.docroot%/$VM_MYSQL_ROOTPASSWORD/g\" @"
+    grep -lR "%vm.mysql.user%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%vm.mysql.user%/$VM_MYSQL_USER/g\" @"
+    grep -lR "%vm.mysql.password%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%vm.mysql.password%/$VM_MYSQL_PASSWORD/g\" @"
+    grep -lR "%vm.mysql.database%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%vm.mysql.database%/$VM_MYSQL_DATABASE/g\" @"
+    grep -lR "%vm.mysql.rootpassword%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%vm.mysql.rootpassword%/$VM_MYSQL_ROOTPASSWORD/g\" @"
+    echo -n "    ... Done"
 
-    echo -n " Done"
+    # Time to DOCK'ER! ;)
+    printHeadline "Create Docker VM for $project"
+
+    rm -f /tmp/docker-create.log &> /dev/null
+    rm -f /tmp/docker-create.log &> /dev/null
+
+    status=$(docker-machine status $VM_NAME 2>&1)
+    if [[ "$?" != "1" ]]; then
+        echo "  * Delete existing VirtualBox image"
+        if [[ "$status" == "Running" ]]; then
+            docker-machine stop $VM_NAME &> /tmp/docker-create.log
+        fi
+        docker-machine rm -f $VM_NAME &> /tmp/docker-compose.log
+        echo "    ... Done"
+    fi
+
+    echo "  * Create VirtualBox image"
+    ./progress.sh docker-machine create -d virtualbox --virtualbox-host-dns-resolver --virtualbox-cpu-count=2 --virtualbox-memory=4096 --virtualbox-hostonly-cidr="172.17.0.1/16" $VM_NAME &> /tmp/docker-create.log
+    echo " Done"
+    eval $(docker-machine env $VM_NAME)
+
+    OS=$(uname)
+    if [[ "$OS" == "Darwin" ]]; then
+        echo "  * Installing NFS utils..."
+        ./progress.sh docker-machine ssh $VM_NAME tce-load -wi nfs-utils &> /dev/null
+        echo " Done"
+
+        rcode=$(cat /etc/exports | grep "172\.17\.0\.0")
+        if [[ $rcode != 0 ]]; then
+            echo "  * Update /etc/exports and restart nfsd ..."
+            echo | sudo tee -a /etc/exports &> /dev/null
+            echo "$(pwd) -network 172.17.0.0 -mask 255.255.255.0 -alldirs -maproot=$USER" | sudo tee -a /etc/exports &> /dev/null
+            echo | sudo tee -a /etc/exports &> /dev/null
+            awk '!a[$0]++' /etc/exports | sudo tee /etc/exports &> /dev/null
+            sudo nfsd restart &> /dev/null
+            sleep 2
+        fi
+        sudo nfsd checkexports &> /dev/null
+        echo "  * Mount folders"
+        docker-machine ssh $VM_NAME 'echo "sudo umount $(pwd) || true" | sudo tee /var/lib/boot2docker/bootlocal.sh' &> /dev/null
+        docker-machine ssh $VM_NAME 'echo "sudo /usr/local/etc/init.d/nfs-client start" | sudo tee -a /var/lib/boot2docker/bootlocal.sh' &> /dev/null
+        docker-machine ssh $VM_NAME 'echo "sudo mount -t nfs -o noacl,async 172.17.0.1:/Users $(pwd)" | sudo tee -a /var/lib/boot2docker/bootlocal.sh' &> /dev/null
+        echo "    ... Done"
+
+        echo "  * Restart VM"
+        ./progress.sh docker-machine restart $VM_NAME &> /dev/null
+        echo " Done"
+    fi
+
+    echo "  * Compose containers (this may take a few minutes)"
+    ./progress.sh docker-compose up -d --force-recreate &>  /tmp/docker-compose.log
+    if [ $? -ne 0 ]; then
+        printError "Couldn't start containers!"
+        exit 1
+    fi
+    echo " Done"
+
+    VM_IP=$(docker-machine ip $VM_NAME)
+
+    printHeadline "Finished!"
+
+    echo 'Put into /etc/hosts:'
+    echo ''
+    echo "    $VM_IP $VM_DOMAIN"
+    echo ''
+    echo 'In new terminal before start use always:'
+    echo ''
+    echo '    eval $(docker-machine env $VM_NAME)'
 }
 run
