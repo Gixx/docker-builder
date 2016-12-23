@@ -110,12 +110,11 @@ cp ./install.sh /tmp/xxx
 
     # Clone docker-builder
     if [[ ! -d "./.git" ]]; then
-        echo "";
-        echo -n "Clone Docker-Builder"
+        echo "Clone Docker-Builder"
         git clone git@github.com:Gixx/docker-builder.git . &> /dev/null
         # Not to accidentally commit anything back
         # rm -rf ./.git
-        echo " ... Done"
+        echo "... Done"
 # DEV
 cp -f /tmp/xxx ./install.sh
 # DEV END
@@ -183,5 +182,14 @@ cp -f /tmp/xxx ./install.sh
 
     echo $NORMAL
     echo "Data saved, patching Docker resources. "
+
+    grep -lR "%vm.name%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%vm.name%/$VM_NAME/g\" @"
+    grep -lR "%vm.timezone%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%vm.timezone%/$VM_TIMEZONE/g\" @"
+    grep -lR "%vm.domain%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%vm.domain%/$VM_DOMAIN/g\" @"
+    grep -lR "%vm.docroot%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%vm.docroot%/$VM_DOCROOT/g\" @"
+    grep -lR "%vm.docroot%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%vm.docroot%/$VM_MYSQL_USER/g\" @"
+    grep -lR "%vm.docroot%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%vm.docroot%/$VM_MYSQL_PASSWORD/g\" @"
+    grep -lR "%vm.docroot%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%vm.docroot%/$VM_MYSQL_DATABASE/g\" @"
+    grep -lR "%vm.docroot%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%vm.docroot%/$VM_MYSQL_ROOTPASSWORD/g\" @"
 }
 run
