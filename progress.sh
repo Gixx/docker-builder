@@ -7,7 +7,7 @@ RESTORE_CURSOR=$(tput rc)
 CLEAR=$(tput el)
 COUNTER=1
 
-echo $SAVE_CURSOR > /dev/tty
+echo -n "    $SAVE_CURSOR" > /dev/tty
 
 while kill -0 $! &> /dev/null; do
     if [[ $COUNTER > 5 ]]; then

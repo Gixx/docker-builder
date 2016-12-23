@@ -90,11 +90,13 @@ cp ./install.sh /tmp/xxx
         exit 1
     fi
 
-    # Check install directory
+    printHeadline "Clone Docker-Builder."
 
+    # Check install directory
     if [ "$(find . ! -name install.sh ! -name .)" ]; then
         printWarning "Current directory ($PWD) is not empty!"
 
+        echo ""
         echo "$BOLD Do you want to delete all files?$NORMAL"
         echo "  * Note: changes cannot be undone!"
         read -p "    [y/n]> " answer;
@@ -108,24 +110,22 @@ cp ./install.sh /tmp/xxx
         [[ $answer = [yY] ]] || return
     fi
 
-    # Clone docker-builder
-    if [[ ! -d "./.git" ]]; then
-        echo "Clone Docker-Builder"
-        git clone git@github.com:Gixx/docker-builder.git . &> /dev/null
-        # Not to accidentally commit anything back
-        # rm -rf ./.git
-        echo "... Done"
+    echo "  * Clone repository"
+    git clone git@github.com:Gixx/docker-builder.git . &> /dev/null
+    # Not to accidentally commit anything back
+    # rm -rf ./.git
+    echo "    ... Done"
+
 # DEV
 cp -f /tmp/xxx ./install.sh
 # DEV END
-        mkdir sources &> /dev/null
-    fi
+    mkdir sources &> /dev/null
 
     # Clone user's project
-    printHeadline "Type the name of your GitHub project (in format:  <Namespace>/<Project>), followed by [ENTER]:"
-    read -p "  > $UNDERLINE$SAVE_CURSOR                         $RESTORE_CURSOR" project
-    echo $NORMAL;
-    echo -n "Clone '$project' into the ./sources folder "
+    printHeadline "Clone GitHub project"
+    echo  "$BOLD Type the name of your GitHub project (in format:  <Namespace>/<Project>), followed by [ENTER]:$NORMAL"
+    read -p "  * > $UNDERLINE$SAVE_CURSOR                         $RESTORE_CURSOR" project
+    echo "$NORMAL  * Clone '$project' into the ./sources folder"
     ./progress.sh git clone git@github.com:$project.git ./sources &> /dev/null
 
     if [[ ! -d "./sources" ]]; then
@@ -181,15 +181,16 @@ cp -f /tmp/xxx ./install.sh
     fi
 
     echo $NORMAL
-    echo "Data saved, patching Docker resources. "
-
+    echo "Data saved, patching Docker resources:"
     grep -lR "%vm.name%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%vm.name%/$VM_NAME/g\" @"
-    grep -lR "%vm.timezone%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%vm.timezone%/$VM_TIMEZONE/g\" @"
+    grep -lR "%vm.timezone%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s#%vm.timezone%#$VM_TIMEZONE#g\" @"
     grep -lR "%vm.domain%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%vm.domain%/$VM_DOMAIN/g\" @"
     grep -lR "%vm.docroot%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%vm.docroot%/$VM_DOCROOT/g\" @"
     grep -lR "%vm.docroot%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%vm.docroot%/$VM_MYSQL_USER/g\" @"
     grep -lR "%vm.docroot%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%vm.docroot%/$VM_MYSQL_PASSWORD/g\" @"
     grep -lR "%vm.docroot%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%vm.docroot%/$VM_MYSQL_DATABASE/g\" @"
     grep -lR "%vm.docroot%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%vm.docroot%/$VM_MYSQL_ROOTPASSWORD/g\" @"
+
+    echo -n " Done"
 }
 run
