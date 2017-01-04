@@ -123,7 +123,7 @@ function run() {
     mkdir sources &> /dev/null
 
     # Clone user's project
-    printHeadline "Clone GitHub project"
+    printHeadline "Clone GitHub project..."
     echo  "$BOLD Type the name of your GitHub project (in format:  <Namespace>/<Project>), followed by [ENTER]:$NORMAL"
     read -p "  * > $UNDERLINE$SAVE_CURSOR                         $RESTORE_CURSOR" project
     echo "$NORMAL  * Clone '$project' into the ./sources folder"
@@ -137,7 +137,7 @@ function run() {
     fi
 
     # Collect informations
-    printHeadline "In the following, we need you to give some setup data."
+    printHeadline "In the following, we need you to give some setup data..."
 
     read -p "$NORMAL  * VM name (default: $VM_NAME)                                        > $UNDERLINE$SAVE_CURSOR                         $RESTORE_CURSOR" input;
     if [[ ! -z "$input" ]]; then
@@ -159,7 +159,7 @@ function run() {
         VM_DOCROOT=$input
     fi
 
-    printHeadline "Please enter the MySQL credentials for the VM."
+    printHeadline "Please enter the MySQL credentials for the VM..."
 
     read -p "$NORMAL  * MySQL user (default: $VM_MYSQL_USER)                                          > $UNDERLINE$SAVE_CURSOR                         $RESTORE_CURSOR" input;
     if [[ ! -z "$input" ]]; then
@@ -182,7 +182,7 @@ function run() {
     fi
 
     echo $NORMAL
-    echo "Data saved, patching Docker resources:"
+    printHeadline "Data saved, patching Docker resources..."
     grep -lR "%host.ip%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%host.ip%/$HOST_IP/g\" @"
     grep -lR "%host.group%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%host.group%/$HOST_GROUP/g\" @"
     grep -lR "%vm.name%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%vm.name%/$VM_NAME/g\" @"
@@ -196,7 +196,7 @@ function run() {
     echo -n "    ... Done"
 
     # Time to DOCK'ER! ;)
-    printHeadline "Create Docker VM for $project"
+    printHeadline "Create Docker VM for $project..."
 
     rm -f /tmp/docker-create.log &> /dev/null
     rm -f /tmp/docker-compose.log &> /dev/null
@@ -230,6 +230,7 @@ function run() {
             echo | sudo tee -a /etc/exports &> /dev/null
             awk '!a[$0]++' /etc/exports | sudo tee /etc/exports &> /dev/null
             sudo nfsd restart &> /dev/null
+            echo "    ... Done"
             sleep 2
         fi
         sudo nfsd checkexports &> /dev/null
