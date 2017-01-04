@@ -21,7 +21,7 @@ services:
             context: ./resources/nginx
             dockerfile: Dockerfile
         image: nginx:latest
-        container_name: %vm.name%-webserver
+        container_name: %vm.name%-web
         environment:
             MYSQL_ROOT_PASSWORD: %vm.mysql.rootpassword%
         ports:
@@ -56,7 +56,7 @@ services:
             - 3306:3306
         restart: always
         networks:
-            %vm.name%-network: { aliases: [ db.local ] }
+            %vm.name%-network: { aliases: [ dbms.local ] }
 
 volumes:
     mysql-data:
