@@ -133,7 +133,7 @@ function run() {
         printError "The $project could not be cloned!"
         exit 1
     else
-        echo " Done"
+        echo "... Done"
     fi
 
     # Collect informations
@@ -211,9 +211,9 @@ function run() {
         echo "    ... Done"
     fi
 
-    echo "  * Create VirtualBox image"
+    echo "  * Create VirtualBox image ( tail -f /tmp/docker-create.log )"
     ./progress.sh docker-machine create -d virtualbox --virtualbox-host-dns-resolver --virtualbox-cpu-count=2 --virtualbox-memory=4096 --virtualbox-hostonly-cidr="172.17.0.1/16" $VM_NAME &> /tmp/docker-create.log
-    echo " Done"
+    echo "... Done"
     eval $(docker-machine env $VM_NAME)
 
     OS=$(uname)
@@ -244,7 +244,7 @@ function run() {
         echo " Done"
     fi
 
-    echo "  * Compose containers (this may take a few minutes)"
+    echo "  * Compose containers ( tail -f /tmp/docker-compose.log )"
     ./progress.sh docker-compose up -d --force-recreate &>  /tmp/docker-compose.log
     if [ $? -ne 0 ]; then
         printError "Couldn't start containers!"
