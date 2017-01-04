@@ -220,7 +220,7 @@ function run() {
     if [[ "$OS" == "Darwin" ]]; then
         echo "  * Installing NFS utils"
         ./progress.sh docker-machine ssh $VM_NAME tce-load -wi nfs-utils &> /dev/null
-        echo " Done"
+        echo "... Done"
 
         rcode=$(cat /etc/exports | grep "172\.17\.0\.0")
         if [[ $rcode != 0 ]]; then
@@ -241,7 +241,7 @@ function run() {
 
         echo "  * Restart VM"
         ./progress.sh docker-machine restart $VM_NAME &> /dev/null
-        echo " Done"
+        echo "... Done"
     fi
 
     echo "  * Compose containers ( tail -f /tmp/docker-compose.log )"
@@ -250,7 +250,7 @@ function run() {
         printError "Couldn't start containers!"
         exit 1
     fi
-    echo " Done"
+    echo "... Done"
 
     VM_IP=$(docker-machine ip $VM_NAME)
 
