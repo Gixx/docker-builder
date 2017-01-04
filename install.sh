@@ -154,7 +154,7 @@ function run() {
         VM_DOMAIN=$input
     fi
 
-    read -p "$NORMAL  * VM document root: relative to the ./source folder (default is '.') > $UNDERLINE$SAVE_CURSOR                         $RESTORE_CURSOR" input;
+    read -p "$NORMAL  * VM document root: relative to the ./source folder (default is '.')  > $UNDERLINE$SAVE_CURSOR                         $RESTORE_CURSOR" input;
     if [[ ! -z "$input" ]]; then
         VM_DOCROOT=$input
     fi
@@ -181,7 +181,6 @@ function run() {
         VM_MYSQL_ROOTPASSWORD=$input
     fi
 
-    echo $NORMAL
     printHeadline "Data saved, patching Docker resources..."
     grep -lR "%host.ip%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%host.ip%/$HOST_IP/g\" @"
     grep -lR "%host.group%" * | grep -v install.sh | xargs -I@ sh -c "echo \"  * @\"; sed -i '' \"s/%host.group%/$HOST_GROUP/g\" @"
