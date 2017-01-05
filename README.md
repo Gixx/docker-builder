@@ -32,8 +32,10 @@ finish
 ```bash
 $> eval $(docker-machine env myproject)
 $> docker exec -it myproject-dbms bash
-root@xxxxx:/application# mysql -uroot -prootpass myprojectdatabase < /path/to/myproject.schema.sql
+root@xxxxx:/application# mysql -uroot -prootpass myprojectdatabase < /application/path/to/myproject.schema.sql
 ```
+
+* Note: the ```path/to/myproject.schema.sql``` must be included in your GitHub project
 
 5) In your PHP application use PDO to connect to the database.
 ```php
