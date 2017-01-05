@@ -1,4 +1,4 @@
-FROM percona:5.6
+FROM nginx:latest
 
 WORKDIR /application
 ENV TERM=xterm

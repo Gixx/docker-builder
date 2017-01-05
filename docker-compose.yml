@@ -22,8 +22,6 @@ services:
             dockerfile: Dockerfile
         image: nginx:latest
         container_name: %vm.name%-web
-        environment:
-            MYSQL_ROOT_PASSWORD: %vm.mysql.rootpassword%
         ports:
             - 80:80
             - 443:443
