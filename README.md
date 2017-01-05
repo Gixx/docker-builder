@@ -28,3 +28,19 @@ In new terminal before start use always:
 finish
 ```
 
+4) Create the database schema from console or with your favourite SQL GUI (like MySQL Workbench).
+```bash
+$> eval $(docker-machine env myproject)
+$> docker exec -it myproject-dbms bash
+root@xxxxx:/application# mysql -uroot -prootpass myprojectdatabase < /path/to/myproject.schema.sql
+```
+
+5) In your PHP application use PDO to connect to the database.
+```php
+$conn = new PDO('mysql:dbname=myproject;charset=utf8;hostname=dbms.local', 'root', 'rootpass');
+$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$stmt = $conn->prepare("SELECT * FROM some_table");
+$stmt->execute();
+$stmt->setFetchMode(PDO::FETCH_ASSOC);
+var_dump($stmt->fetchAll());
+```
