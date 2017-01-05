@@ -42,7 +42,7 @@ services:
         build:
             context: ./resources/mysql
             dockerfile: Dockerfile
-        image: percona:5.7
+        image: percona:5.6
         container_name: %vm.name%-dbms
         environment:
             MYSQL_USER: %vm.mysql.user%
