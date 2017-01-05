@@ -17,9 +17,6 @@ services:
             %vm.name%-network: { aliases: [ fpm.local ] }
 
     web:
-        build:
-            context: ./resources/nginx
-            dockerfile: Dockerfile
         image: nginx:latest
         container_name: %vm.name%-web
         ports:
