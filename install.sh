@@ -211,7 +211,7 @@ function run() {
     fi
 
     echo "  * Create VirtualBox image ( tail -f /tmp/docker-create.log )"
-    ./progress.sh docker-machine create -d virtualbox --virtualbox-host-dns-resolver --virtualbox-cpu-count=2 --virtualbox-memory=4096 --virtualbox-hostonly-cidr="172.17.0.1/16" $VM_NAME &> /tmp/docker-create.log
+    ./progress.sh docker-machine create -d virtualbox --virtualbox-host-dns-resolver --virtualbox-cpu-count=2 --virtualbox-memory=2048 --virtualbox-hostonly-cidr="172.17.0.1/16" $VM_NAME &> /tmp/docker-create.log
     echo "... Done"
     eval $(docker-machine env $VM_NAME)
 

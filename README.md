@@ -1,6 +1,6 @@
 # Docker Builder #
 
-An automated script that creates a PHP7 + nginx + MySQL Docker VM for your PHP7 GitHub project. This script is created for Unix-based systems.
+An automated script that creates a PHP7.1 + nginx + MySQL Docker VM for your PHP7 GitHub project. This script is created for Unix-based systems.
 
 ## Requirements for OSX ##
 [![Minimum Docker Version](https://img.shields.io/badge/Docker%20Toolbox-%3E%3D1.10-blue.svg)](https://www.docker.com/products/docker-toolbox)
