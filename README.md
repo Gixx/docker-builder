@@ -32,7 +32,7 @@ finish
 ```bash
 $> eval $(docker-machine env myproject)
 $> docker exec -it myproject-dbms bash
-root@xxxxx:/application# mysql -uroot -prootpass myprojectdatabase < /application/path/to/myproject.schema.sql
+root@xxxxx:/opt/project# mysql -uroot -prootpass myprojectdatabase < /opt/project/path/to/myproject.schema.sql
 ```
 
 * Note: the ```path/to/myproject.schema.sql``` must be included in your GitHub project

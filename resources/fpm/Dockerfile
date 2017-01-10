@@ -1,6 +1,6 @@
 FROM php:7.1-fpm
 
-WORKDIR /application
+WORKDIR /opt/project
 ENV TERM=xterm
 
 RUN apt-get update
@@ -15,6 +15,9 @@ RUN mv ./xdebug-XDEBUG_2_5_0 /usr/src/php/ext/xdebug
 RUN docker-php-ext-configure intl
 RUN docker-php-ext-configure xdebug
 RUN docker-php-ext-install intl mcrypt pdo_mysql pdo_sqlite xdebug bcmath
+
+RUN curl -L -o /usr/local/bin/composer https://getcomposer.org/composer.phar
+RUN chmod +x /usr/local/bin/composer
 
 ADD ./www.conf /usr/local/etc/php-fpm.d/www.conf
 ADD ./container /etc/containername

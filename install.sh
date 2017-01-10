@@ -117,9 +117,6 @@ function run() {
     rm -rf ./.git
     echo "    ... Done"
 
-    # DEV
-    #cp -f /tmp/xxx ./install.sh
-    # DEV END
     mkdir sources &> /dev/null
 
     # Clone user's project
@@ -253,6 +250,12 @@ function run() {
     echo "... Done"
 
     VM_IP=$(docker-machine ip $VM_NAME)
+
+    if [[ -f "./sources/composer.json" ]]; then
+        printHeadline "Install composer packages ( tail -f /tmp/composer-install.log )"
+        ./progress.sh docker exec -it $VM_NAME-name composer install &>  /tmp/composer-install.log
+        echo "... Done"
+    fi
 
     printHeadline "Finished!"
 

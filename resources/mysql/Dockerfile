@@ -1,6 +1,6 @@
 FROM percona:5.7
 
-WORKDIR /application
+WORKDIR /opt/project
 ENV TERM=xterm
 
 RUN apt-get update

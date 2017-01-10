@@ -7,7 +7,7 @@ services:
         image: php:7.1-fpm
         container_name: %vm.name%-fpm
         volumes:
-            - ./sources:/application
+            - ./sources:/opt/project
             - ./resources/fpm/php-local.ini:/usr/local/etc/php/php.ini:ro
             - ./resources/cli/conf.d:/usr/local/etc/php/conf.d:ro
         links:
@@ -23,7 +23,7 @@ services:
             - 80:80
             - 443:443
         volumes:
-            - ./sources:/application
+            - ./sources:/opt/project
             - ./resources/nginx/sites-enabled:/etc/nginx/conf.d:ro
             - ./resources/nginx/ssl:/etc/nginx/ssl:ro
             - ./resources/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
@@ -46,7 +46,7 @@ services:
             MYSQL_ROOT_PASSWORD: %vm.mysql.rootpassword%
         volumes:
             - mysql-data:/var/lib/mysql
-            - ./sources:/application
+            - ./sources:/opt/project
         ports:
             - 3306:3306
         restart: always
