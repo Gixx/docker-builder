@@ -253,7 +253,7 @@ function run() {
 
     if [[ -f "./sources/composer.json" ]]; then
         printHeadline "Install composer packages ( tail -f /tmp/composer-install.log )"
-        ./progress.sh docker exec -it $VM_NAME-name composer install &>  /tmp/composer-install.log
+        ./progress.sh docker exec -it $VM_NAME-fpm composer install &>  /tmp/composer-install.log
         echo "... Done"
     fi
 
