@@ -252,7 +252,7 @@ function run() {
     VM_IP=$(docker-machine ip $VM_NAME)
 
     if [[ -f "./sources/composer.json" ]]; then
-        printHeadline "Install composer packages ( tail -f /tmp/composer-install.log )"
+        printHeadline "Install composer packages..."
         docker exec -it $VM_NAME-fpm composer install
         echo "... Done"
     fi
