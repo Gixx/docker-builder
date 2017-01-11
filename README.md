@@ -66,7 +66,7 @@ In the following I will give a small tutorial, how to configure the project with
 
 ![docker-builder_03](https://cloud.githubusercontent.com/assets/87073/21843368/0a020926-d7eb-11e6-8355-41819e285c01.png)
 
-* We will configure everithing manually. Choose the `sources` folder and mark it as `Project Root`.
+* We will configure everything manually. Choose the `sources` folder and mark it as `Project Root`.
 
 ![docker-builder_04](https://cloud.githubusercontent.com/assets/87073/21843370/0a040e24-d7eb-11e6-8ea6-bd56f789a772.png)
 
