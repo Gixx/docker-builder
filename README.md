@@ -36,7 +36,7 @@ For the demo, I cloned [my own project](https://github.com/Gixx/WebHemi) but sti
 ```bash
 $> eval $(docker-machine env myproject)
 $> docker exec -it myproject-dbms bash
-root@42eb77011507:/opt/project# mysql -uroot -prootpass myprojectdatabase < /opt/project/path/to/myproject.schema.sql
+root@42eb77011507:/opt/project# mysql -uroot -prootpass myproject < /opt/project/path/to/myproject.schema.sql
 ```
 
 * Note: the container ID will be different for you.
