@@ -240,3 +240,55 @@ For more information about how to do it, please visit the [official PHP website]
 * On the toolbar press the green "Play" button and wait for the miracle.
 
 ![docker-builder_17f](https://cloud.githubusercontent.com/assets/87073/21848391/c46c1468-d800-11e6-84e7-af6c49b54edb.png)
+
+### Configure XDebug ###
+
+To use this tool you have to have the suitable browser extension installed. The easiest option to use the [XDebug Helper for Google Chrome](https://github.com/mac-cain13/xdebug-helper-for-chrome).
+
+![docker-builder_18a](https://cloud.githubusercontent.com/assets/87073/21850551/6a3e8664-d80b-11e6-8058-9de577eb9ca2.png)
+
+* On the toolbar choose the `Edit Configurations...` option again from the dropdown list.
+
+![docker-builder_17d](https://cloud.githubusercontent.com/assets/87073/21848209/05290ef8-d800-11e6-8447-bb14ae7a3d4c.png)
+
+* By pressing the `+` choose to add `PHP Remote Debug`.
+* Add a custom name for this setup.
+* Select the webserver from the `Servers` dropdown list that we created before.
+* Set the same IDE key as used by the browser extension ( PHPSTORM ). 
+
+![docker-builder_18b](https://cloud.githubusercontent.com/assets/87073/21850636/dbf5b7dc-d80b-11e6-9f7a-757b874c3c40.png)
+
+* On the toolbar select the XDebug tool from the dropdown list and activate it.
+
+![docker-builder_18c](https://cloud.githubusercontent.com/assets/87073/21850788/91eaf9c6-d80c-11e6-80d0-23b8d8040d98.png)
+
+* In the browser navigate to your dev website (in the demo it was https://myproject.dev)
+* The Docker-Builder uses self-signed certificates which the browser won't like by default, so you have to make it proceed to the dev website. It's yours, you can trust yourself ;)
+* Activate the tool.
+
+![docker-builder_18d](https://cloud.githubusercontent.com/assets/87073/21850823/b84f783a-d80c-11e6-8f50-bcfca284dc85.png)
+
+* Refresh the page, and the PhpStorm should come to top and notifies you about and incoming connection. Accept it.
+
+![docker-builder_18e](https://cloud.githubusercontent.com/assets/87073/21850937/4a535756-d80d-11e6-9872-e1c6b3aded74.png)
+
+* Place a break point in your code, then refresh the page in the browser, and start debugging.
+
+![docker-builder_18f](https://cloud.githubusercontent.com/assets/87073/21850938/4a5aa678-d80d-11e6-9230-e580264fbd31.png)
+
+### Configure MySQL Connection ###
+
+* In the PhpStorm on the right open the `Database` pane.
+* By pressing the `+` button add a new MySQL `Data Source`.
+
+![docker-builder_19a](https://cloud.githubusercontent.com/assets/87073/21851204/4457c70a-d80e-11e6-8333-174091a12970.png)
+
+* Set the host and the credentials as it was set during the Docker-Builder install.
+* If the database driver is not present, the PhpStorm can download it for you, just follow the instructions.
+
+![docker-builder_19b](https://cloud.githubusercontent.com/assets/87073/21851383/30b67470-d80f-11e6-87ab-4f2c4d8bcf85.png)
+
+* Initialize the database, write queries or run SQL scripts from files.
+
+![docker-builder_19c](https://cloud.githubusercontent.com/assets/87073/21851382/30b44038-d80f-11e6-95e0-cfd8d752c00a.png)
+
