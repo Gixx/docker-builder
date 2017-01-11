@@ -88,25 +88,25 @@ In the following I will give a small tutorial, how to configure the project with
 
 * Open the project Preferences and navigate to the `Languages & Frameworks > PHP` option.
 * Set the `PHP language level` to `7.1`.
+* Press the `...` button to add a new `CLI Interpreter`.
 
 ![docker-builder_08](https://cloud.githubusercontent.com/assets/87073/21843372/0a063226-d7eb-11e6-8de6-0ab3eb43882a.png)
 
-* Press the `...` button to add a new `CLI Interpreter`.
-
-![docker-builder_09](https://cloud.githubusercontent.com/assets/87073/21843374/0a198452-d7eb-11e6-8928-9e496d5d30cb.png)
-
 * Choose the `Remote...` option.
 
-![docker-builder_10](https://cloud.githubusercontent.com/assets/87073/21843375/0a1d5992-d7eb-11e6-9fc0-688aeab48013.png)
+![docker-builder_09](https://cloud.githubusercontent.com/assets/87073/21843374/0a198452-d7eb-11e6-8928-9e496d5d30cb.png)
 
 * Select the previously set up Docker machine. 
 * If the image name is not `php:7.1-fpm` then select it from the dropdown list.
 * Press the [ OK ] button, then you have to see the correct setup. Note that it recognized the Xdebug as well.
+
+![docker-builder_10](https://cloud.githubusercontent.com/assets/87073/21843375/0a1d5992-d7eb-11e6-9fc0-688aeab48013.png)
+
 * Optional: It is recommended to check the `Visible only for this project` option.
+* The PHP Interpreter setup is complete.
 
 ![docker-builder_11](https://cloud.githubusercontent.com/assets/87073/21843376/0a201894-d7eb-11e6-8ebf-ed33d61f16aa.png)
 
-* The PHP Interpreter setup is complete.
 * Note that the docker-builder is designed to use the PhpStorm's default `/opt/project` mappings, so you don't have to deal with the paths here.
 
 ![docker-builder_12](https://cloud.githubusercontent.com/assets/87073/21844249/2663c890-d7ee-11e6-9865-b07def94a88c.png)
@@ -216,7 +216,8 @@ For more information about how to do it, please visit the [official PHP website]
 ```bash
 /opt/project/vendor/autoload.php
 ```
-* If your project has its custom PHPUnit configuration, check the `Default configuration file` option and add its path. Unfortunately there's no "Browse" button, so you have to type it manully. 
+* If your project has its custom PHPUnit configuration - recommended -, check the `Default configuration file` option and add its path. Unfortunately there's no "Browse" button, so you have to type it manully.
+* Here's a [sample configuration XML](https://raw.githubusercontent.com/Gixx/WebHemi/master/phpunit.xml)
 
 ```bash
 /opt/project/xdebug.xml
