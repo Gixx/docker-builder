@@ -227,7 +227,7 @@ For more information about how to do it, please visit the [official PHP website]
 /opt/project/xdebug.xml
 ```
 
-![docker-builder_17c](https://cloud.githubusercontent.com/assets/87073/21847831/447c80be-d7fe-11e6-9d5d-67990ce0bee8.png)
+![docker-builder_17c](https://cloud.githubusercontent.com/assets/87073/21852789/bb054b9c-d814-11e6-9652-0e51c6f5c473.png)
 
 * On the toolbar there's a dropdown list. Note that is might be empty if you didn't set anything up before. Choose the `Edit Configurations...` option.
 
