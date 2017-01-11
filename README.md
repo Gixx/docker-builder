@@ -197,7 +197,9 @@ For more information about how to do it, please visit the [official PHP website]
 ```javascript
 {
     "require-dev": {
-        "phpunit/phpunit": "5.7.4"
+        "phpunit/phpunit": "5.7.4",
+        "satooshi/php-coveralls": "dev-master",
+        "johnkary/phpunit-speedtrap": "^1.0"
     }
 }
 ```
