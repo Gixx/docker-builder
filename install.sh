@@ -126,7 +126,7 @@ function run() {
     echo "$NORMAL  * Clone '$project' into the ./sources folder"
     ./progress.sh git clone git@github.com:$project.git ./sources &> /dev/null
 
-    if [[ ! -d "./sources" ]]; then
+    if [[ ! -d "./sources/.git" ]]; then
         printError "The $project could not be cloned!"
         exit 1
     else
