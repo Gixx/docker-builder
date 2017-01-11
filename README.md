@@ -270,7 +270,7 @@ To use this tool you have to have the suitable browser extension installed. The 
 
 * Refresh the page, and the PhpStorm should come to top and notifies you about and incoming connection. Accept it.
 
-![docker-builder_18e](https://cloud.githubusercontent.com/assets/87073/21850937/4a535756-d80d-11e6-9872-e1c6b3aded74.png)
+![docker-builder_18e](https://cloud.githubusercontent.com/assets/87073/21851869/35afa896-d811-11e6-9f95-d80f80a02169.png)
 
 * Place a break point in your code, then refresh the page in the browser, and start debugging.
 
