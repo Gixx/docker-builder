@@ -23,7 +23,7 @@ curl -sL https://raw.githubusercontent.com/Gixx/docker-builder/master/install.sh
 
 For the demo, I cloned [my own project](https://github.com/Gixx/WebHemi) but still refer as `myproject`. You can name it as you wish when the installer asks for the `VM NAME`.
 
-![docker-builder_01](https://cloud.githubusercontent.com/assets/87073/21842521/7ba6cf70-d7e7-11e6-8bfb-61622a697384.png)
+![docker-builder_01](https://cloud.githubusercontent.com/assets/87073/21855760/d03dfae4-d81f-11e6-9ba9-717cd0991ea9.png)
 
 * The installer will download and install `composer` into the `/usr/bin/` folder of the FPM container.
 * If your GitHub project has a `composer.json` file, the installer will automatically run the `composer install` command in the FPM container.
