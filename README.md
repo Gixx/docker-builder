@@ -44,7 +44,7 @@ root@42eb77011507:/opt/project# mysql -uroot -prootpass myproject < /opt/project
 
 5) In your PHP application use PDO to connect to the database.
 ```php
-$conn = new PDO('mysql:dbname=myproject;charset=utf8;hostname=dbms.local', 'root', 'rootpass');
+$conn = new PDO('mysql:dbname=myproject;charset=utf8;host=dbms.local', 'root', 'rootpass');
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $stmt = $conn->prepare("SELECT * FROM some_table");
 $stmt->execute();
