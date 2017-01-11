@@ -56,6 +56,8 @@ var_dump($stmt->fetchAll());
 
 In the following I will give a small tutorial, how to configure the project with PhpStorm.
 
+[![Minimum PhpStorm Version](https://img.shields.io/badge/PhpStorm-%3E%3D2016.3.2-blue.svg)](https://www.jetbrains.com/phpstorm/download/)
+
 **IMPORTANT: On the screenshots I modified my actual home folder path to `~/`. You shouldn't do that, so please leave it as the PhpStorm provides it by default.**
 
 ### Create the project ###
