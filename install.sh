@@ -83,7 +83,7 @@ function run() {
 
     echo "Welcome to the Docker-Builder."
     echo "";
-    echo "This script will create a PHP7 Docker VM for your GitHub project."
+    echo "This script will create a PHP 7.1 Docker VM for your GitHub project."
 
     # Check docker
     if [ $? -ne 0 ]; then
