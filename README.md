@@ -224,8 +224,9 @@ For more information about how to do it, please visit the [official PHP website]
 * Here's a [sample configuration XML](https://raw.githubusercontent.com/Gixx/WebHemi/master/phpunit.xml)
 
 ```bash
-/opt/project/xdebug.xml
+/opt/project/phpunit.xml
 ```
+![#f03c15](http://placehold.it/15/f03c15/000000?text=+) `THE SAMPLE IMAGE CONTAINS WRONG FILE REFERENCE. XDEBUG.XML IS NOT PLAYING HERE.`
 
 ![docker-builder_17c](https://cloud.githubusercontent.com/assets/87073/21852789/bb054b9c-d814-11e6-9652-0e51c6f5c473.png)
 
