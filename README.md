@@ -23,7 +23,7 @@ curl -sL https://raw.githubusercontent.com/Gixx/docker-builder/master/install.sh
 
 For the demo, I cloned [my own project](https://github.com/Gixx/WebHemi) but still refer as `myproject`. You can name it as you wish when the installer asks for the `VM NAME`.
 
-![docker-builder_01](https://cloud.githubusercontent.com/assets/87073/21842521/7ba6cf70-d7e7-11e6-8bfb-61622a697384.png)
+![docker-builder_01](https://cloud.githubusercontent.com/assets/87073/21855760/d03dfae4-d81f-11e6-9ba9-717cd0991ea9.png)
 
 * The installer will download and install `composer` into the `/usr/bin/` folder of the FPM container.
 * If your GitHub project has a `composer.json` file, the installer will automatically run the `composer install` command in the FPM container.
@@ -36,7 +36,7 @@ For the demo, I cloned [my own project](https://github.com/Gixx/WebHemi) but sti
 ```bash
 $> eval $(docker-machine env myproject)
 $> docker exec -it myproject-dbms bash
-root@42eb77011507:/opt/project# mysql -uroot -prootpass myprojectdatabase < /opt/project/path/to/myproject.schema.sql
+root@42eb77011507:/opt/project# mysql -uroot -prootpass myproject < /opt/project/path/to/myproject.schema.sql
 ```
 
 * Note: the container ID will be different for you.
@@ -44,7 +44,7 @@ root@42eb77011507:/opt/project# mysql -uroot -prootpass myprojectdatabase < /opt
 
 5) In your PHP application use PDO to connect to the database.
 ```php
-$conn = new PDO('mysql:dbname=myproject;charset=utf8;hostname=dbms.local', 'root', 'rootpass');
+$conn = new PDO('mysql:dbname=myproject;charset=utf8;host=dbms.local', 'root', 'rootpass');
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $stmt = $conn->prepare("SELECT * FROM some_table");
 $stmt->execute();
@@ -224,10 +224,11 @@ For more information about how to do it, please visit the [official PHP website]
 * Here's a [sample configuration XML](https://raw.githubusercontent.com/Gixx/WebHemi/master/phpunit.xml)
 
 ```bash
-/opt/project/xdebug.xml
+/opt/project/phpunit.xml
 ```
+![#f03c15](http://placehold.it/15/f03c15/000000?text=+) `THE SAMPLE IMAGE CONTAINS WRONG FILE REFERENCE. XDEBUG.XML IS NOT PLAYING HERE.`
 
-![docker-builder_17c](https://cloud.githubusercontent.com/assets/87073/21847831/447c80be-d7fe-11e6-9d5d-67990ce0bee8.png)
+![docker-builder_17c](https://cloud.githubusercontent.com/assets/87073/21852789/bb054b9c-d814-11e6-9652-0e51c6f5c473.png)
 
 * On the toolbar there's a dropdown list. Note that is might be empty if you didn't set anything up before. Choose the `Edit Configurations...` option.
 
