@@ -14,7 +14,7 @@ RUN mv ./xdebug-XDEBUG_2_5_0 /usr/src/php/ext/xdebug
 
 RUN docker-php-ext-configure intl
 RUN docker-php-ext-configure xdebug
-RUN docker-php-ext-install intl mcrypt pdo_mysql pdo_sqlite xdebug bcmath
+RUN docker-php-ext-install intl mcrypt pdo_mysql pdo_sqlite xdebug bcmath gettext php-gettext
 
 RUN curl -L -o /usr/local/bin/composer https://getcomposer.org/composer.phar
 RUN chmod +x /usr/local/bin/composer
