@@ -1,49 +1,50 @@
 version: "2"
 services:
-    php:
+    nginx:
         build:
-            context: ./resources/fpm
+            context: ./resources/nginx
             dockerfile: Dockerfile
-        image: php:7.1-fpm
-        container_name: %vm.name%-fpm
-        volumes:
-            - ./sources:/opt/project
-            - ./resources/fpm/php-local.ini:/usr/local/etc/php/php.ini:ro
-            - ./resources/cli/conf.d:/usr/local/etc/php/conf.d:ro
-        links:
-            - mysql
-        restart: always
-        networks:
-            %vm.name%-network: { aliases: [ fpm.local ] }
-
-    web:
         image: nginx:latest
-        container_name: %vm.name%-web
+        container_name: webhwei-web
         ports:
             - 80:80
-            - 443:443
         volumes:
             - ./sources:/opt/project
-            - ./resources/nginx/sites-enabled:/etc/nginx/conf.d:ro
-            - ./resources/nginx/ssl:/etc/nginx/ssl:ro
+            - ./resources/nginx/conf.d:/etc/nginx/conf.d:ro
             - ./resources/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
         links:
             - php
         restart: always
         networks:
-            %vm.name%-network: { aliases: [ web.local ] }
+            webhemi-network: { aliases: [ web.local ] }
+            
+    php:
+        build:
+            context: ./resources/php
+            dockerfile: Dockerfile
+        image: php:7.1-fpm
+        container_name: webhemi-fpm
+        volumes:
+            - ./sources:/opt/project
+            - ./resources/php/php.ini:/usr/local/etc/php/php.ini:ro
+            - ./resources/php/conf.d:/usr/local/etc/php/conf.d:ro
+        links:
+            - mysql
+        restart: always
+        networks:
+            webhemi-network: { aliases: [ fpm.local ] }            
 
     mysql:
         build:
             context: ./resources/mysql
             dockerfile: Dockerfile
         image: percona:5.7
-        container_name: %vm.name%-dbms
+        container_name: webhemi-dbms
         environment:
-            MYSQL_USER: %vm.mysql.user%
-            MYSQL_PASSWORD: %vm.mysql.password%
-            MYSQL_DATABASE: %vm.mysql.database%
-            MYSQL_ROOT_PASSWORD: %vm.mysql.rootpassword%
+            MYSQL_USER: webhemi
+            MYSQL_PASSWORD: devmysql
+            MYSQL_DATABASE: webhemi
+            MYSQL_ROOT_PASSWORD: devmysql
         volumes:
             - mysql-data:/var/lib/mysql
             - ./sources:/opt/project
@@ -51,12 +52,12 @@ services:
             - 3306:3306
         restart: always
         networks:
-            %vm.name%-network: { aliases: [ dbms.local ] }
+            webhemi-network: { aliases: [ dbms.local ] }
 
 volumes:
     mysql-data:
         driver: local
 
 networks:
-    %vm.name%-network:
+    webhemi-network:
         driver: bridge
