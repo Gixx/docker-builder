@@ -2,8 +2,10 @@
 dir="$(dirname "$0")"
 cd $dir
 
-docker-machine create -d virtualbox --virtualbox-host-dns-resolver --virtualbox-cpu-count=2 --virtualbox-memory=2048 --virtualbox-hostonly-cidr="172.17.0.1/16" webhemi
-eval $(docker-machine env webhemi)
+VM_NAME=development
+
+docker-machine create -d virtualbox --virtualbox-host-dns-resolver --virtualbox-cpu-count=2 --virtualbox-memory=2048 --virtualbox-hostonly-cidr="172.17.0.1/16" $VM_NAME
+eval $(docker-machine env $VM_NAME)
 
 docker-compose up -d --force-recreate
 
@@ -13,22 +15,21 @@ if [ $? -ne 0 ]; then
 fi
 
 if [[ -f "./sources/composer.json" ]]; then
-    docker exec -it webhemi-fpm composer install
-    echo "... Done"
+    docker exec -it $VM_NAME-fpm composer install
 fi
 
-docker exec -it webhemi-fpm dpkg-reconfigure locales
+docker exec -it $VM_NAME-fpm dpkg-reconfigure locales
 # choose  1 for install all locales
 # choose 131 to set en_GB.UTF-8 as default
 locale-gen
 
-docker-machine ssh webhemi 'echo "sudo umount $(pwd) || true" | sudo tee /var/lib/boot2docker/bootlocal.sh' &> /dev/null
-docker-machine ssh webhemi 'echo "sudo /usr/local/etc/init.d/nfs-client start" | sudo tee -a /var/lib/boot2docker/bootlocal.sh' &> /dev/null
-docker-machine ssh webhemi 'echo "sudo mount -t nfs -o noacl,async 172.17.0.1:/Users $(pwd)" | sudo tee -a /var/lib/boot2docker/bootlocal.sh' &> /dev/null
-       
+docker-machine ssh $VM_NAME 'echo "sudo umount $(pwd) || true" | sudo tee /var/lib/boot2docker/bootlocal.sh' &> /dev/null
+docker-machine ssh $VM_NAME 'echo "sudo /usr/local/etc/init.d/nfs-client start" | sudo tee -a /var/lib/boot2docker/bootlocal.sh' &> /dev/null
+docker-machine ssh $VM_NAME 'echo "sudo mount -t nfs -o noacl,async 172.17.0.1:/Users $(pwd)" | sudo tee -a /var/lib/boot2docker/bootlocal.sh' &> /dev/null
 
-VM_IP=$(docker-machine ip webhemi)
+
+VM_IP=$(docker-machine ip $VM_NAME)
 echo 'Put into /etc/hosts:'
 echo ''
-echo "    $VM_IP webhemi.dev"
- 
+echo "    $VM_IP $VM_NAME.dev"
+

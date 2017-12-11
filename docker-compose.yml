@@ -5,7 +5,7 @@ services:
             context: ./resources/nginx
             dockerfile: Dockerfile
         image: nginx:latest
-        container_name: webhemi-web
+        container_name: development-web
         ports:
             - 80:80
         volumes:
@@ -16,14 +16,14 @@ services:
             - php
         restart: always
         networks:
-            webhemi-network: { aliases: [ web.local ] }
-            
+            development-network: { aliases: [ web.local ] }
+
     php:
         build:
             context: ./resources/php
             dockerfile: Dockerfile
         image: php:7.1-fpm
-        container_name: webhemi-fpm
+        container_name: development-fpm
         volumes:
             - ./sources:/opt/project
             - ./resources/php/php.ini:/usr/local/etc/php/php.ini:ro
@@ -32,18 +32,18 @@ services:
             - mysql
         restart: always
         networks:
-            webhemi-network: { aliases: [ fpm.local ] }            
+            development-network: { aliases: [ fpm.local ] }
 
     mysql:
         build:
             context: ./resources/mysql
             dockerfile: Dockerfile
         image: percona:5.7
-        container_name: webhemi-dbms
+        container_name: development-dbms
         environment:
-            MYSQL_USER: webhemi
+            MYSQL_USER: development
             MYSQL_PASSWORD: devmysql
-            MYSQL_DATABASE: webhemi
+            MYSQL_DATABASE: development
             MYSQL_ROOT_PASSWORD: devmysql
         volumes:
             - mysql-data:/var/lib/mysql
@@ -52,12 +52,12 @@ services:
             - 3306:3306
         restart: always
         networks:
-            webhemi-network: { aliases: [ dbms.local ] }
+            development-network: { aliases: [ dbms.local ] }
 
 volumes:
     mysql-data:
         driver: local
 
 networks:
-    webhemi-network:
+    development-network:
         driver: bridge
