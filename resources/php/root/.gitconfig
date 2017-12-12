@@ -1,0 +1,49 @@
+[user]
+        name =
+        email =
+[pull]
+        default = current
+[push]
+        default = current
+[core]
+        fileMode = false
+        editor = vim
+[color]
+        ui = true
+[alias]
+        p = pull
+        s = show
+        f = fetch
+        st = status
+        ci = commit
+        br = branch
+        co = checkout
+        df = diff
+        dc = diff --cached
+        file = diff --name-status master..release/integration
+        lg = log --color --graph --pretty=format:\"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)\"
+        lol = log --graph --decorate --pretty=oneline --abbrev-commit
+        lolf = log --graph --decorate --pretty=oneline --abbrev-commit --name-status
+        lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+        ls = log --graph --oneline --all
+        loli = log --graph --decorate --pretty=format:'%C(yellow)%h%C(reset) - %s ~~~ %C(green)(%an)%C(reset) %C(bold blue)(%ad)%C(reset)' --date=iso --abbrev-commit
+        loling = log --decorate --pretty=format:'%C(yellow)%h%C(reset) - %s ~~~ %C(green)(%an)%C(reset) %C(bold blue)(%ad)%C(reset)' --date=iso --abbrev-commit
+        lolif = log --graph --decorate --pretty=format:'%C(yellow)%h%C(reset) - %s ~~~ %C(green)(%an)%C(reset) %C(bold blue)(%ad)%C(reset)' --date=iso --name-status
+        lolifs = log --graph --decorate --pretty=format:'%C(yellow)%h%C(reset) - %s ~~~ %C(green)(%an)%C(reset) %C(bold blue)(%ad)%C(reset)' --date=iso --shortstat
+
+        # Show files ignored by git:
+        ign = ls-files -o -i --exclude-standard
+        hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+        type = cat-file -t
+        dump = cat-file -p
+        r = reset
+        r1 = reset HEAD^
+        r2 = reset HEAD^^
+        rh = reset --hard
+        rh1 = reset HEAD^ --hard
+        rh2 = reset HEAD^^ --hard
+        la = !git config -l | grep alias | cut -c 7-
+        md = !git ll -1
+        fl = log -u
+        lmd = log --pretty=format:\"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]\" --decorate --numstat
+        lsf = log --pretty=format:\"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]\" --decorate

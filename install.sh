@@ -18,18 +18,12 @@ if [[ -f "./sources/composer.json" ]]; then
     docker exec -it $VM_NAME-fpm composer install
 fi
 
-docker exec -it $VM_NAME-fpm dpkg-reconfigure locales
-# choose  1 for install all locales
-# choose 131 to set en_GB.UTF-8 as default
-locale-gen
-
+# Networking and mount
 docker-machine ssh $VM_NAME 'echo "sudo umount $(pwd) || true" | sudo tee /var/lib/boot2docker/bootlocal.sh' &> /dev/null
 docker-machine ssh $VM_NAME 'echo "sudo /usr/local/etc/init.d/nfs-client start" | sudo tee -a /var/lib/boot2docker/bootlocal.sh' &> /dev/null
 docker-machine ssh $VM_NAME 'echo "sudo mount -t nfs -o noacl,async 172.17.0.1:/Users $(pwd)" | sudo tee -a /var/lib/boot2docker/bootlocal.sh' &> /dev/null
-
 
 VM_IP=$(docker-machine ip $VM_NAME)
 echo 'Put into /etc/hosts:'
 echo ''
 echo "    $VM_IP $VM_NAME.dev"
-

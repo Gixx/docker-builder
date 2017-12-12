@@ -10,8 +10,8 @@ services:
             - 80:80
         volumes:
             - ./sources:/opt/project
-            - ./resources/nginx/conf.d:/etc/nginx/conf.d:ro
-            - ./resources/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+            - ./resources/nginx/etc/nginx/conf.d:/etc/nginx/conf.d:ro
+            - ./resources/nginx/etc/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
         links:
             - php
         restart: always
@@ -26,8 +26,8 @@ services:
         container_name: development-fpm
         volumes:
             - ./sources:/opt/project
-            - ./resources/php/php.ini:/usr/local/etc/php/php.ini:ro
-            - ./resources/php/conf.d:/usr/local/etc/php/conf.d:ro
+            - ./resources/php/etc/php/php.ini:/usr/local/etc/php/php.ini:ro
+            - ./resources/php/etc/php/conf.d:/usr/local/etc/php/conf.d:ro
         links:
             - mysql
         restart: always
