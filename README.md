@@ -1,4 +1,4 @@
-# Docker Builder v2
+# Docker Builder v3
 
 ![Tested on Windows 10](https://img.shields.io/badge/Tested%20on-Windows%2010-green.svg)
 ![Tested on OSX High Sierra](https://img.shields.io/badge/Tested%20on-OSX%20High%20Sierra-green.svg)
@@ -28,7 +28,7 @@ Virtual Machine's local domain. The default is `development.dev`.
 
 ## PHP
 
-**Image**: php:7.1-fpm
+**Image**: php:7.2-fpm
 
 **Note**:
 * edit the `etc/default/locale` file to change the default language. The default is: `en_GB.utf8`.
@@ -50,7 +50,7 @@ The following packages will be installed for the php-fpm container:
 | libicu-dev zlib1g-dev g++ | Required by the `Intl` PHP extension during install. |
 | locales | Because not every developer came for Murica. |
 | libpng-dev | Required by the `gd` PHP extension during install. |
-| gettext php-gettext | Because some developer may like to create a multi-lingual website. |
+| gettext | Because some developer may like to create a multi-lingual website. |
 
 ### PHP container extra additions
 
@@ -71,7 +71,6 @@ Some cools stuffs are not linux packages or need to be install in a different wa
 | bcmath | To work with arbitrary precision numbers. |
 | gettext | To create a multi-lingual website. |
 | gd | To be able to do basic image manipulation. |
-| mbstring | Because in the world of unicode, you can't simply rely on the Latin-1 functions. |
 | zip | Because of composer. And anyways. |
 
 ## Requirements

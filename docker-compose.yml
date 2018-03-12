@@ -1,4 +1,4 @@
-version: "2"
+version: "3"
 services:
     nginx:
         build:
@@ -22,7 +22,7 @@ services:
         build:
             context: ./resources/php
             dockerfile: Dockerfile
-        image: php:7.1-fpm
+        image: php:7.2-fpm
         container_name: development-fpm
         volumes:
             - ./sources:/opt/project
