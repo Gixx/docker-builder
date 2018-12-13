@@ -26,4 +26,4 @@ docker-machine ssh $VM_NAME 'echo "sudo mount -t nfs -o noacl,async 172.18.0.1:/
 VM_IP=$(docker-machine ip $VM_NAME)
 echo 'Put into /etc/hosts:'
 echo ''
-echo "    $VM_IP $VM_NAME.dev"
+echo "    $VM_IP $VM_NAME.com"
